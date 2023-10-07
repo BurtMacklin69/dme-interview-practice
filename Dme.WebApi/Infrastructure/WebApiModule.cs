@@ -15,8 +15,8 @@ internal class WebApiModule : Module
 
 	protected override void Load(ContainerBuilder builder)
 	{
-		builder.Register(ctx => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
-		builder.Register(ctx => new LoggerConfiguration()
+		builder.Register(_ => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
+		builder.Register(_ => new LoggerConfiguration()
 			.MinimumLevel.Debug()
 			.WriteTo.Console()
 			.CreateLogger()).As<Serilog.ILogger>();

@@ -33,7 +33,7 @@ internal class UsersStoreClient : IUsersStoreClient
 			.WaitAndRetryAsync(
 				retryCount: _retryCount,
 				sleepDurationProvider: attemptNumber => TimeSpan.FromSeconds(attemptNumber),
-				onRetry: (exception, sleepDuration, attemptNumber, context) =>
+				onRetry: (_, sleepDuration, attemptNumber, _) =>
 				{
 					_logger.Debug("Too many requests. Retrying in {sleepDuration}. " +
 					              "{attemptNumber} / {_retryCount}", sleepDuration, attemptNumber, _retryCount);

@@ -27,8 +27,8 @@ internal class AppModule : Module
 
 		InitDatabase(logger);
 
-		builder.Register(ctx => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
-		builder.Register(ctx => logger).As<ILogger>().SingleInstance();
+		builder.Register(_ => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
+		builder.Register(_ => logger).As<ILogger>().SingleInstance();
 		builder.RegisterModule(new InteractionModule());
 		builder.RegisterModule(new PersistenceModule());
 		builder.RegisterModule(new UsersStoreClientModule(_settings.UsersStoreClient));

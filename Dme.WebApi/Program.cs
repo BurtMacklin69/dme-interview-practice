@@ -49,7 +49,6 @@ app.MapGet("/users/{id:int}", (int id,
 		}
 	})
 	.WithOpenApi();
-;
 
 app.MapGet("/users",
 		(int? page, int? pageSize, OrderBy? orderBy, Sort? sort, 

@@ -6,7 +6,7 @@ public class DocumentEntity
 
 	public int UserId { get; set; }
 
-	public string Type { get; set; }
+	public string Type { get; set; } = null!;
 
-	public string Value { get; set; }
+	public string Value { get; set; } = null!;
 }
