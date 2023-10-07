@@ -3,39 +3,40 @@ using Dme.Interaction.ServiceContracts;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace Dme.Interaction.Interactors
+namespace Dme.Interaction.Interactors;
+
+public interface IUsersExtractionInteractor
 {
-	public interface IUsersExtractionInteractor
+	Task ExtractUsersAsync(int count, CancellationToken cancellationToken = default);
+}
+
+internal class UsersExtractionInteractor : Interactor, IUsersExtractionInteractor
+{
+	private readonly IUsersStoreClient _usersStoreClient;
+	private readonly ICreateUsersRequest _createUsersRequest;
+	private readonly ILogger _logger;
+
+	public UsersExtractionInteractor(IUsersStoreClient usersStoreClient, DbContext dbContext, ICreateUsersRequest createUsersRequest, ILogger logger) : base(dbContext)
 	{
-		Task ExtractUsersAsync(CancellationToken cancellationToken = default);
+		_usersStoreClient = usersStoreClient ?? 
+		                    throw new ArgumentNullException(nameof(usersStoreClient));
+		_createUsersRequest = createUsersRequest ?? 
+		                      throw new ArgumentNullException(nameof(createUsersRequest));
+		_logger = logger ?? 
+		          throw new ArgumentNullException(nameof(logger));
 	}
 
-	internal class UsersExtractionInteractor : Interactor, IUsersExtractionInteractor
+	public async Task ExtractUsersAsync(int count, CancellationToken cancellationToken = default)
 	{
-		private readonly IUsersStoreClient _usersStoreClient;
-		private readonly ICreateUsersRequest _createUsersRequest;
-		private readonly ILogger _logger;
+		if (count == 0) throw new ArgumentException("Users count must be positive", nameof(count));
 
-		public UsersExtractionInteractor(IUsersStoreClient usersStoreClient, DbContext dbContext, ICreateUsersRequest createUsersRequest, ILogger logger) : base(dbContext)
-		{
-			_usersStoreClient = usersStoreClient ?? 
-			                    throw new ArgumentNullException(nameof(usersStoreClient));
-			_createUsersRequest = createUsersRequest ?? 
-			                      throw new ArgumentNullException(nameof(createUsersRequest));
-			_logger = logger ?? 
-			          throw new ArgumentNullException(nameof(logger));
-		}
+		var users = await _usersStoreClient.GetUsersAsync(count, cancellationToken);
 
-		public async Task ExtractUsersAsync(CancellationToken cancellationToken = default)
-		{
-			var users = await _usersStoreClient.GetUsersAsync(cancellationToken);
+		_logger.Debug("{count} users extracted from remote users store", users.Count);
 
-			_logger.Debug("{count} users extracted from remote users store", users.Count);
+		_createUsersRequest.Create(users);
+		await DbContext.SaveChangesAsync(cancellationToken);
 
-			_createUsersRequest.Create(users);
-			await DbContext.SaveChangesAsync(cancellationToken);
-
-			_logger.Debug("{count} users persisted", users.Count);
-		}
+		_logger.Debug("{count} users persisted", users.Count);
 	}
 }

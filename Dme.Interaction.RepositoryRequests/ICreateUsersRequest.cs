@@ -1,9 +1,8 @@
-﻿using Dme.Interaction.Models.UsersExtraction;
+﻿using Dme.Interaction.Models.Users;
 
-namespace Dme.Interaction.RepositoryRequests
+namespace Dme.Interaction.RepositoryRequests;
+
+public interface ICreateUsersRequest 
 {
-	public interface ICreateUsersRequest 
-	{
-		void Create(IReadOnlyCollection<User> users);
-	}
+	void Create(IReadOnlyCollection<User> users);
 }

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dme.Interaction.Models\Dme.Interaction.Models.csproj" />
+    <ProjectReference Include="..\Dme.Persistence.Models\Dme.Persistence.Models.csproj" />
+  </ItemGroup>
+
+</Project>

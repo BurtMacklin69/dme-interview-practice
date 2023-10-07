@@ -4,11 +4,11 @@ namespace Dme.Services.UsersStoreClient.Models.Mappers;
 
 internal static class DocumentMapper
 {
-	public static Document ToInteraction(this IdDto id)
+	public static Document? ToInteraction(this IdDto id)
 	{
 		if (string.IsNullOrWhiteSpace(id.Name) &&
 		    string.IsNullOrWhiteSpace(id.Value))
-			throw new ArgumentException("Id expected as not empty", nameof(id));
+			return null;
 
 		return new Document
 		{

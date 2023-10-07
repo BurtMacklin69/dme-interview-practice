@@ -7,6 +7,7 @@ public class DocumentEntity
 	public int UserId { get; set; }
 
 	public int DocumentTypeId { get; set; }
+	public DocumentTypeEntity? DocumentType { get; set; }
 
 	public string Value { get; set; }
 }

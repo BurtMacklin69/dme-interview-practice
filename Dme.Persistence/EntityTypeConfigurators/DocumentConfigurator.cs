@@ -9,6 +9,6 @@ internal class DocumentConfigurator : IEntityTypeConfiguration<DocumentEntity>
 	public void Configure(EntityTypeBuilder<DocumentEntity> builder)
 	{
 		builder.HasKey(e => e.Id);
-		builder.HasOne<DocumentTypeEntity>().WithMany().HasForeignKey(e => e.DocumentTypeId);
+		builder.HasOne(e => e.DocumentType).WithMany().HasForeignKey(e => e.DocumentTypeId);
 	}
 }
