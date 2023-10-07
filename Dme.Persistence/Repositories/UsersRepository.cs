@@ -1,8 +1,6 @@
-﻿using System.Linq.Expressions;
-using Dme.Interaction.Models.Users;
+﻿using Dme.Interaction.Models.Users;
 using Dme.Interaction.RepositoryRequests;
 using Dme.Interaction.RepositoryRequests.Models;
-using Dme.Persistence.Extensions;
 using Dme.Persistence.Mappers;
 using Dme.Persistence.Models.Models;
 using Dme.Persistence.Pattern;
