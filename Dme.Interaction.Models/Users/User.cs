@@ -2,15 +2,17 @@ namespace Dme.Interaction.Models.Users;
 
 public class User
 {
-	public Name Name { get; set; } = null!;
+	public Id Id { get; init; } = Id.NotSetYet;
 
-	public string? Email { get; set; }
+	public Name Name { get; init; } = null!;
 
-	public DateTimeOffset BirthDate { get; set; }
+	public string? Email { get; init; }
 
-	public DateTimeOffset RegisteredAt { get; set; }
+	public DateTimeOffset BirthDate { get; init; }
 
-	public Document? Document { get; set; }
+	public DateTimeOffset RegisteredAt { get; init; }
 
-	public Picture Picture { get; set; } = null!;
+	public Document? Document { get; init; }
+
+	public Picture Picture { get; init; } = null!;
 }

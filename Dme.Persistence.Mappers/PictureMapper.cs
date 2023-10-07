@@ -12,4 +12,12 @@ public static class PictureMapper
 			Medium = picture.Medium,
 			Thumbnail = picture.Thumbnail
 		};
+
+	public static Picture ToInteraction(this PictureEntity entity) =>
+		new()
+		{
+			Large = entity.Large,
+			Medium = entity.Medium,
+			Thumbnail = entity.Thumbnail
+		};
 }

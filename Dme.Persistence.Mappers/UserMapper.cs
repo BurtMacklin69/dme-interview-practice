@@ -9,15 +9,33 @@ public static class UserMapper
 	{
 		var documents = new List<DocumentEntity>();
 		if (user.Document != null)
-			documents.Add(user.Document.ToPersistence());
+		{
+			var document = user.Document!.ToPersistence();
+			if (document != null)
+				documents.Add(document);
+		}
 
 		return new UserEntity
 		{
+			Id = user.Id,
 			Email = user.Email ?? string.Empty,
 			BirthDate = user.BirthDate,
 			Documents = documents,
 			Name = user.Name.ToPersistence(),
 			Pictures = new List<PictureEntity> {user.Picture.ToPersistence()},
+			RegisteredAt = user.RegisteredAt
+		};
+	}
+	public static User ToInteraction(this UserEntity user)
+	{
+		return new User
+		{
+			Id = user.Id,
+			Email = user.Email ?? string.Empty,
+			BirthDate = user.BirthDate,
+			Document = user.Documents?.MaxBy(d => d.Id)?.ToInteraction(),
+			Name = user.Name.ToInteraction(),
+			Picture = user.Pictures!.MaxBy(d => d.Id)!.ToInteraction(),
 			RegisteredAt = user.RegisteredAt
 		};
 	}

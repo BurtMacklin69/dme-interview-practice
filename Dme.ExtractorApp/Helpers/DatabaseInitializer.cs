@@ -1,12 +1,11 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Dme.Persistence;
+using Microsoft.Data.SqlClient;
 
 namespace Dme.ExtractorApp.Helpers;
 
 internal static class DatabaseInitializer
 {
-    public const string DatabaseName = "DmeLupinovUsers";
-
-    public static void EnsureDatabaseCreated()
+	public static void EnsureDatabaseCreated()
     {
         var connection = new SqlConnection(
             "Data Source=(localdb)\\MSSQLLocalDB;" +
@@ -37,14 +36,14 @@ internal static class DatabaseInitializer
     {
         var sql = $@"
 				    CREATE DATABASE
-				        [{DatabaseName}]
+				        [{UsersDbContext.DatabaseName}]
 				    ON PRIMARY (
-				       NAME={DatabaseName},
-				       FILENAME = '{Path.Combine(PathHelper.GetCurrentPath(), $"{DatabaseName}.mdf")}'
+				       NAME={UsersDbContext.DatabaseName},
+				       FILENAME = '{Path.Combine(PathHelper.GetCurrentPath(), $"{UsersDbContext.DatabaseName}.mdf")}'
 				    )
 				    LOG ON (
-				        NAME={DatabaseName}_log,
-				        FILENAME = '{Path.Combine(PathHelper.GetCurrentPath(), $"{DatabaseName}_log.ldf")}'
+				        NAME={UsersDbContext.DatabaseName}_log,
+				        FILENAME = '{Path.Combine(PathHelper.GetCurrentPath(), $"{UsersDbContext.DatabaseName}_log.ldf")}'
 				    )";
 
         var command = new SqlCommand(sql, connection);
@@ -53,7 +52,7 @@ internal static class DatabaseInitializer
 
     private static bool DatabaseExists(SqlConnection connection)
     {
-        const string cmdText = $"SELECT * FROM sys.databases where Name='{DatabaseName}'";
+        const string cmdText = $"SELECT * FROM sys.databases where Name='{UsersDbContext.DatabaseName}'";
         using var cmd = new SqlCommand(cmdText, connection);
         using var reader = cmd.ExecuteReader();
         return reader.HasRows;

@@ -5,6 +5,8 @@ namespace Dme.Persistence;
 
 public class UsersDbContext : DbContext
 {
+	public const string DatabaseName = "DmeLupinovUsers";
+
 	private readonly Action<DbContextOptionsBuilder> _builderAction;
 
 	public UsersDbContext()

@@ -55,14 +55,13 @@ internal class UsersStoreClient : IUsersStoreClient
 			};
 		});
 
-		switch (captureResult.Outcome)
+		return captureResult.Outcome switch
 		{
-			case OutcomeType.Successful when captureResult.Result?.Results == null:
-				throw new Exception("Unabled to download users from store: null reference", captureResult.FinalException);
-			case OutcomeType.Successful:
-				return captureResult.Result.Results.Select(user => user.ToInteraction()).ToList();
-			default:
-				throw new Exception("Unabled to download users from store", captureResult.FinalException);
-		}
+			OutcomeType.Successful when captureResult.Result?.Results == null => throw new Exception(
+				"Unabled to download users from store: null reference", captureResult.FinalException),
+			OutcomeType.Successful => captureResult.Result.Results.Select(user => user.ToInteraction()).ToList(),
+			OutcomeType.Failure => throw new Exception("Unabled to download users from store", captureResult.FinalException),
+			_ => throw new IndexOutOfRangeException($"{nameof(captureResult.Outcome)} is not supported")
+		};
 	}
 }

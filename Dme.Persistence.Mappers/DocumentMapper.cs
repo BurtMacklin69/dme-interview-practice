@@ -17,4 +17,11 @@ public static class DocumentMapper
 			Type = doc.Name
 		};
 	}
+
+	public static Document ToInteraction(this DocumentEntity entity) =>
+		new()
+		{
+			Name = entity.Type,
+			Value = entity.Value
+		};
 }

@@ -18,4 +18,11 @@ public static class NameMapper
 			Title = name.Title
 		};
 	}
+
+	public static Name ToInteraction(this NameEntity entity) => new()
+	{
+		First = entity.First,
+		Last = entity.Last,
+		Title = entity.Title
+	};
 }

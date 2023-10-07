@@ -40,5 +40,5 @@ internal class AppModule : Module
 	}
 
 	private void BuildDbContext(DbContextOptionsBuilder builder) =>
-		builder.UseSqlServer(_settings.ConnectionString.Replace("{database}", DatabaseInitializer.DatabaseName));
+		builder.UseSqlServer(_settings.ConnectionString.Replace("{database}", UsersDbContext.DatabaseName));
 }
