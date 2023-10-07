@@ -15,10 +15,7 @@ public static class NameMapper
 		{
 			First = name.First,
 			Last = name.Last,
-			Title = new TitleEntity
-			{
-				Name = name.Title
-			}
+			Title = name.Title
 		};
 	}
 }

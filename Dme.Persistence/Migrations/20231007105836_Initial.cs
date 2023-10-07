@@ -12,50 +12,18 @@ namespace Dme.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DocumentTypeEntity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTypeEntity", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TitleEntity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TitleEntity", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "NameEntity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TitleId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     First = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Last = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NameEntity", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NameEntity_TitleEntity_TitleId",
-                        column: x => x.TitleId,
-                        principalTable: "TitleEntity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,18 +55,12 @@ namespace Dme.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    DocumentTypeId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DocumentEntity", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DocumentEntity_DocumentTypeEntity_DocumentTypeId",
-                        column: x => x.DocumentTypeId,
-                        principalTable: "DocumentTypeEntity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DocumentEntity_Users_UserId",
                         column: x => x.UserId,
@@ -130,19 +92,9 @@ namespace Dme.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentEntity_DocumentTypeId",
-                table: "DocumentEntity",
-                column: "DocumentTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DocumentEntity_UserId",
                 table: "DocumentEntity",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_NameEntity_TitleId",
-                table: "NameEntity",
-                column: "TitleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PictureEntity_UserId",
@@ -166,16 +118,10 @@ namespace Dme.Persistence.Migrations
                 name: "PictureEntity");
 
             migrationBuilder.DropTable(
-                name: "DocumentTypeEntity");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "NameEntity");
-
-            migrationBuilder.DropTable(
-                name: "TitleEntity");
         }
     }
 }

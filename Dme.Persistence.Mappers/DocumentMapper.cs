@@ -14,10 +14,7 @@ public static class DocumentMapper
 		return new DocumentEntity
 		{
 			Value = doc.Value,
-			DocumentType = new DocumentTypeEntity
-			{
-				Name = doc.Name
-			}
+			Type = doc.Name
 		};
 	}
 }

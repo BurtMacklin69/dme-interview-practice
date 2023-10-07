@@ -30,8 +30,9 @@ namespace Dme.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -42,28 +43,9 @@ namespace Dme.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentTypeId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("DocumentEntity");
-                });
-
-            modelBuilder.Entity("Dme.Persistence.Models.Models.DocumentTypeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DocumentTypeEntity");
                 });
 
             modelBuilder.Entity("Dme.Persistence.Models.Models.NameEntity", b =>
@@ -82,12 +64,11 @@ namespace Dme.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TitleId")
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TitleId");
 
                     b.ToTable("NameEntity");
                 });
@@ -122,23 +103,6 @@ namespace Dme.Persistence.Migrations
                     b.ToTable("PictureEntity");
                 });
 
-            modelBuilder.Entity("Dme.Persistence.Models.Models.TitleEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TitleEntity");
-                });
-
             modelBuilder.Entity("Dme.Persistence.Models.Models.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -169,30 +133,11 @@ namespace Dme.Persistence.Migrations
 
             modelBuilder.Entity("Dme.Persistence.Models.Models.DocumentEntity", b =>
                 {
-                    b.HasOne("Dme.Persistence.Models.Models.DocumentTypeEntity", "DocumentType")
-                        .WithMany()
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Dme.Persistence.Models.Models.UserEntity", null)
                         .WithMany("Documents")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DocumentType");
-                });
-
-            modelBuilder.Entity("Dme.Persistence.Models.Models.NameEntity", b =>
-                {
-                    b.HasOne("Dme.Persistence.Models.Models.TitleEntity", "Title")
-                        .WithMany()
-                        .HasForeignKey("TitleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Title");
                 });
 
             modelBuilder.Entity("Dme.Persistence.Models.Models.PictureEntity", b =>
