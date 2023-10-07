@@ -13,4 +13,6 @@ internal class UserDto
 	public IdDto? Id { get; set; }
 
 	public PictureDto Picture { get; set; } = null!;
+
+	public LoginDto Login { get; set; } = null!;
 }

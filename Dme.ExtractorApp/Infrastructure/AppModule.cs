@@ -20,23 +20,30 @@ internal class AppModule : Module
 
 	protected override void Load(ContainerBuilder builder)
 	{
-		InitDatabase();
-
-		builder.Register(ctx => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
-		builder.Register(ctx => new LoggerConfiguration()
+		var logger = new LoggerConfiguration()
 			.MinimumLevel.Debug()
 			.WriteTo.Console()
-			.CreateLogger()).As<ILogger>();
+			.CreateLogger();
+
+		InitDatabase(logger);
+
+		builder.Register(ctx => new UsersDbContext(BuildDbContext)).As<DbContext>().InstancePerLifetimeScope();
+		builder.Register(ctx => logger).As<ILogger>().SingleInstance();
 		builder.RegisterModule(new InteractionModule());
 		builder.RegisterModule(new PersistenceModule());
 		builder.RegisterModule(new UsersStoreClientModule(_settings.UsersStoreClient));
 	}
 
-	private void InitDatabase()
+	private void InitDatabase(ILogger logger)
 	{
-		DatabaseInitializer.EnsureDatabaseCreated();
+		logger.Debug("Ensuring LocalDB-database with name {database} created...", UsersDbContext.DatabaseName);
+		DatabaseInitializer.EnsureDatabaseCreated(out var created);
+		logger.Debug("Database {database} {created}", UsersDbContext.DatabaseName, created ? "created" : "already existed");
+
 		using var dbContext = new UsersDbContext(BuildDbContext);
+		logger.Debug("Ensuring database is synchronized with data model...");
 		dbContext.Database.Migrate();
+		logger.Debug("Database is synchronized with data model");
 	}
 
 	private void BuildDbContext(DbContextOptionsBuilder builder) =>

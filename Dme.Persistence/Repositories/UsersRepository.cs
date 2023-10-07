@@ -8,7 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dme.Persistence.Repositories;
 
-internal class UsersRepository : Repository<UserEntity>, ICreateUsersRequest, IGetUserRequest, IGetUsersRequest
+internal class UsersRepository : Repository<UserEntity>,
+	ICreateUsersRequest,
+	IGetUserRequest, 
+	IGetUsersRequest
 {
 	public UsersRepository(DbContext dbContext) : base(dbContext)
 	{

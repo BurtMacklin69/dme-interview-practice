@@ -12,6 +12,7 @@ internal static class UserMapper
 			Document = user.Id?.ToInteraction() ?? null,
 			Name = user.Name.ToInteraction(),
 			Picture = user.Picture.ToInteraction(),
-			RegisteredAt = user.Registered.Date
+			RegisteredAt = user.Registered.Date,
+			ExternalId = user.Login.Uuid
 		};
 }

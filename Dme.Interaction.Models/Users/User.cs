@@ -15,4 +15,6 @@ public class User
 	public Document? Document { get; init; }
 
 	public Picture Picture { get; init; } = null!;
+
+	public Guid ExternalId { get; init; }
 }

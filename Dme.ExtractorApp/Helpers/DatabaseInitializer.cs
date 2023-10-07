@@ -5,7 +5,7 @@ namespace Dme.ExtractorApp.Helpers;
 
 internal static class DatabaseInitializer
 {
-	public static void EnsureDatabaseCreated()
+	public static void EnsureDatabaseCreated(out bool created)
     {
         var connection = new SqlConnection(
             "Data Source=(localdb)\\MSSQLLocalDB;" +
@@ -24,11 +24,13 @@ internal static class DatabaseInitializer
             if (DatabaseExists(connection))
             {
                 connection.Close();
+                created = false;
                 return;
             }
 
             CreateDatabase(connection);
             connection.Close();
+            created = true;
         }
     }
 

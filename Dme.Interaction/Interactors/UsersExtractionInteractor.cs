@@ -30,13 +30,15 @@ internal class UsersExtractionInteractor : Interactor, IUsersExtractionInteracto
 	{
 		if (count == 0) throw new ArgumentException("Users count must be positive", nameof(count));
 
+		_logger.Debug("Extracting {count} users from remote users store...", count);
+
 		var users = await _usersStoreClient.GetUsersAsync(count, cancellationToken);
 
 		_logger.Debug("{count} users extracted from remote users store", users.Count);
 
+		_logger.Debug("Saving users to local database...");
 		_createUsersRequest.Create(users);
 		await DbContext.SaveChangesAsync(cancellationToken);
-
-		_logger.Debug("{count} users persisted", users.Count);
+		_logger.Debug("{count} users successfully persisted", users.Count);
 	}
 }

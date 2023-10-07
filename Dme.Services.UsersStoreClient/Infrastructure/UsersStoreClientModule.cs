@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Dme.Interaction.ServiceContracts;
 using Dme.Services.UsersStoreClient.Settings;
 using RestSharp;
@@ -20,7 +19,6 @@ public class UsersStoreClientModule : Module
 
 	protected override void Load(ContainerBuilder builder)
 	{
-		builder.RegisterAutoMapper(typeof(UsersStoreClientModule).Assembly);
 		builder.Register(ctx =>
 		{
 			var restClient = new RestClient(new RestClientOptions
